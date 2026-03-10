@@ -1,11 +1,10 @@
 import java.util.HashMap;
 import java.util.Map;
 
-// Class to manage individual student data and logic
 class Student {
     private String studentId;
     private String name;
-    private Map<String, Double> subjects;
+    private Map<String, Double> subjects; // Use subject as a key and score as value
 
     public Student(String studentId, String name) {
         this.studentId = studentId;
@@ -18,11 +17,11 @@ class Student {
         subjects.put(subject, score);
     }
 
-    // Delete a subject
     public void deleteSubject(String subject) {
+        //Check subjects
         if (subjects.containsKey(subject)) {
             subjects.remove(subject);
-            System.out.println("Subject '" + subject + "' removed for " + name);
+            System.out.println("Subject (" + subject + ") is  removed.");
         } else {
             System.out.println("Subject not found.");
         }
@@ -39,21 +38,21 @@ class Student {
 
     // Calculate GPA
     public double calculateGPA() {
+        //Check subject condition
         if (subjects.isEmpty()) return 0.0;
 
         double totalGradePoints = 0.0;
+        //Access each element to get score
         for (double score : subjects.values()) {
             totalGradePoints += getGradePoint(score);
         }
         return totalGradePoints / subjects.size();
     }
 
-    // Determine Pass/Fail status
     public String getPassFailStatus() {
         return calculateGPA() >= 2.0 ? "Pass" : "Fail";
     }
 
-    // Display transcript
     public void printTranscript() {
         System.out.println("\n--- Transcript ---");
         System.out.println("Name: " + name + " (ID: " + studentId + ")");
@@ -62,15 +61,15 @@ class Student {
         if (subjects.isEmpty()) {
             System.out.println("  No subjects recorded.");
         } else {
+            //Access each element to get key and value
             for (Map.Entry<String, Double> entry : subjects.entrySet()) {
                 String subject = entry.getKey();
                 double score = entry.getValue();
-                System.out.printf("  - %-10s: Score = %.1f | Grade Point = %.1f%n",
-                        subject, score, getGradePoint(score));
+                System.out.println("  -" + subject + " : Score = " + score + " | Grade Point = " + getGradePoint(score));
             }
         }
 
-        System.out.printf("Total GPA: %.2f%n", calculateGPA());
+        System.out.println("Total GPA: " + calculateGPA());
         System.out.println("Status: " + getPassFailStatus());
         System.out.println("------------------\n");
     }
@@ -78,7 +77,7 @@ class Student {
 
 // Class to manage the overall system and multiple students
 class GPASystem {
-    private Map<String, Student> students;
+    private Map<String, Student> students; //Use student id as key and Student class as value
 
     public GPASystem() {
         students = new HashMap<>();
@@ -95,21 +94,13 @@ class GPASystem {
 
     public void updateScore(String studentId, String subject, double score) {
         Student student = students.get(studentId);
-        if (student != null) {
-            student.updateScore(subject, score);
-            System.out.println("Score updated for " + studentId + " in " + subject);
-        } else {
-            System.out.println("Error: Student not found.");
-        }
+        student.updateScore(subject, score);
+        System.out.println("Score updated for student id " + studentId + " in " + subject);
     }
 
     public void deleteSubject(String studentId, String subject) {
         Student student = students.get(studentId);
-        if (student != null) {
-            student.deleteSubject(subject);
-        } else {
-            System.out.println("Error: Student not found.");
-        }
+        student.deleteSubject(subject);
     }
 
     public void viewTranscript(String studentId) {
@@ -119,5 +110,9 @@ class GPASystem {
         } else {
             System.out.println("Error: Student not found.");
         }
+    }
+
+    public boolean isContainKey(String studentId){
+        return students.containsKey(studentId) ? true : false;
     }
 }

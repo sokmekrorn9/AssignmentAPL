@@ -23,10 +23,10 @@ public class Main {
       switch (choice) {
 
         case 1:
-          System.out.print("Enter Student ID: ");
+          System.out.print("Enter Your ID: ");
           String id = scanner.nextLine();
 
-          System.out.print("Enter Student Name: ");
+          System.out.print("Enter Your Name: ");
           String name = scanner.nextLine();
 
           system.addStudent(id, name);
@@ -35,6 +35,11 @@ public class Main {
         case 2:
           System.out.print("Enter Student ID: ");
           String updateId = scanner.nextLine();
+          //Check if student not exist
+          if(!system.isContainKey(updateId)){
+            System.out.println("Error: Student not found.");
+            break;
+          }
 
           System.out.print("Enter Subject Name: ");
           String subject = scanner.nextLine();
@@ -49,6 +54,12 @@ public class Main {
         case 3:
           System.out.print("Enter Student ID: ");
           String deleteId = scanner.nextLine();
+
+          //Check if student not exist
+          if(!system.isContainKey(deleteId)){
+            System.out.println("Error: Student not found.");
+            break;
+          }
 
           System.out.print("Enter Subject Name to Delete: ");
           String deleteSubject = scanner.nextLine();
